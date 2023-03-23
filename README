@@ -1,0 +1,83 @@
+Copyright Negoita Anca-Elena, 311CA
+
+Tema 2- Metode Numerice
+
+-------------------------------------------------------------------------------
+
+Task 1 - Interpolare Proximala
+
+La acest task, am avut de implementat 7 functii care ajuta la editarea unei
+poze cu ajutorul aproximarii la cel mai apropiat punct. Functiile sunt
+reprezentate de:
+-proximal_2x2- aceasta functie este aplicata pe o imagina alb-negru 2x2 care 
+               este alcatuita dintr-o multidudine de puncte echidistante cu
+               pasul dat. Se identifica in ce cadran din cele 4 se afla punctul
+               analizat si se aproximeaza cu acel varf. Daca este in cadranul
+               1, adica coordonatele sale sunt mai mici decat 1.5(deoarece 
+               cele 4 puncte sut reprezentate de coordonatele (1, 1), (1, 2),
+               (2, 1), (2, 2) ), atunci punctul este aproximat cu f(1, 1), 
+               primul pixel din imagine.
+               
+-proximal_2x2_RGB- precum functia anterioara, se calculeaza punctele cele mai
+                   apropiate, dar pentru fiecare canal de culoare in parte. Se
+                   separa canalele, apoi functia anterioara este apelata, f
+                   reprezentand acum canalul culorii, apoi cu cat imaginea 
+                   este refacuta.
+                   
+-proximal_resize- functia de resize urmeaza formulele mentionate in pdf si
+                  pasii mentionati in fiecare fisier. Se calculeaza factorii
+                  de scalare, apoi se defineste matricea de transformare
+                  pentru redimensionare(de asemenea, calculam inversa). Cu 2
+                  for-uri parcurgem matricea pentru a afla xp, yp, le rotunjim
+                  inferior si vedem in ce cadran se afla din nou pentru a
+                  afla valoarea precisa, apoi o introducem in noua matrice.
+                  
+-proximal_resize_RGB- anticipat, este la fel ca resize-ul anterior, dar cum am 
+                      mentionat si la cealalta functie care avea o imagine
+                      color, se afla cele 3 canale, rosu, verde, albastru, se
+                      apeleaza functia de resize si se unesc intr-o noua 
+                      matrice.
+                     
+-proximal_coef- se calculeaza matricea coeficientilor prin calcularea matricii
+                A din fisier, apoi a vectorului b, iar in final a = A\b.
+                     
+-proximal_rotate- am observat ca pentru aceasta functie este folosita matricea
+                  Givens care are matricea [cos sin; -sin cos]. Calculam
+                  inversa ei si procedam ca la resize pentru a afla xp, yp. 
+                  Apoi, aflam matricea coeficientilor folosind proximal_coef
+                  si, in final, folosim formula pentru a afla punctul.
+                  
+-proximal_rotate_RGB- as expected, la fel ca pana acum, se scot cele 3 canale,
+                      apoi pentru fiecare se apeleaza proximal_rotate, si in
+                      final se unesc folosind cat
+                      
+-------------------------------------------------------------------------------
+
+Task 2 - Interpolare Bicubica
+
+La acest task, am avut de implementat 7 functii care ajuta la editarea unei
+poze cu ajutorul aproximarii prin derivate. Functiile sunt reprezentate de:
+-precalc_d- se calculeaza matricea cu derivate pentru fiecare situatie: fata de
+            x, y si x*y apeland 3 functii: fx, fy, fxy
+-fx- calculeaza derivata lui x in functie de coordonatele date si formula
+-fy- calculeaza derivata lui y in functie de coordonatele date si formula
+-fxy- calculeaza derivata lui xy in functie de coordonatele date si formula,
+      apeland de asemenea functia fy
+-bicubic_coef- se calculeaza o matrice intermediara T care ajuta la aflarea
+               coeficientilor prin formula prezentata in pdf. De asemenea, 
+               o alta matrice prestabilita este creata care se va folosi in 
+               formula finala.
+-bicubic_resize- precum la proximal, se urmeaza aproximativ aceeasi pasi:
+                 se calculeaza factorii de scalare si matricea de transformare,
+                 aflam Ix, Iy, Ixy reprezentand matricile derivatelor, apoi
+                 in for-uri calculam coordonatele xp, yp, gasim cele 4 puncte
+                 care le inconjoara. Apoi, programul calculeaza coeficientii
+                 de interpolare A folosind functia bicubic_coef, se scade
+                 din xp x1 si din yp y1. In final, se calculeaza valoarea
+                 interpolata a pixelului si se afla valoarea sa finala.
+                 
+-bicubic_resize_RGB- se despart cele 3 canale color, rosu, verde, albastru,
+                     se apeleaza functia anterioara pentru fiecare canal,
+                     apoi se unesc cele 3 canale care formeaza imaginea finala.
+                 
+-------------------------------------------------------------------------------
